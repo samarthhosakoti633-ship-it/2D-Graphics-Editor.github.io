@@ -1,0 +1,194 @@
+#include <stdio.h>
+#include <math.h>
+
+#define ROWS 30
+#define COLS 60
+
+char canvas[ROWS][COLS];
+
+void initializeCanvas()
+{
+    for(int i=0;i<ROWS;i++)
+    {
+        for(int j=0;j<COLS;j++)
+        {
+            canvas[i][j]='_';
+        }
+    }
+}
+
+void displayCanvas()
+{
+    for(int i=0;i<ROWS;i++)
+    {
+        for(int j=0;j<COLS;j++)
+        {
+            printf("%c", canvas[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void drawLine()
+{
+    int row,start,end;
+
+    printf("Enter row: ");
+    scanf("%d",&row);
+
+    printf("Enter start column: ");
+    scanf("%d",&start);
+
+    printf("Enter end column: ");
+    scanf("%d",&end);
+
+    for(int i=start;i<=end;i++)
+    {
+        canvas[row][i]='*';
+    }
+}
+
+void drawRectangle()
+{
+    int row,col,width,height;
+
+    printf("Enter row and column: ");
+    scanf("%d%d",&row,&col);
+
+    printf("Enter width and height: ");
+    scanf("%d%d",&width,&height);
+
+    for(int i=row;i<row+height;i++)
+    {
+        for(int j=col;j<col+width;j++)
+        {
+            if(i==row || i==row+height-1 ||
+               j==col || j==col+width-1)
+            {
+                canvas[i][j]='*';
+            }
+        }
+    }
+}
+
+void drawTriangle()
+{
+    int row,col,height;
+
+    printf("Enter row and column: ");
+    scanf("%d%d",&row,&col);
+
+    printf("Enter height: ");
+    scanf("%d",&height);
+
+    for(int i=0;i<height;i++)
+    {
+        for(int j=0;j<=i;j++)
+        {
+            canvas[row+i][col+j]='*';
+        }
+    }
+}
+
+void drawCircle()
+{
+    int cx,cy,r;
+
+    printf("Enter center x y: ");
+    scanf("%d%d",&cx,&cy);
+
+    printf("Enter radius: ");
+    scanf("%d",&r);
+
+    for(int y=0;y<ROWS;y++)
+    {
+        for(int x=0;x<COLS;x++)
+        {
+            int dx=x-cx;
+            int dy=y-cy;
+
+            if(dx*dx + dy*dy <= r*r)
+            {
+                canvas[y][x]='*';
+            }
+        }
+    }
+}
+
+void deleteArea()
+{
+    int row,col,width,height;
+
+    printf("Enter row and column: ");
+    scanf("%d%d",&row,&col);
+
+    printf("Enter width and height: ");
+    scanf("%d%d",&width,&height);
+
+    for(int i=row;i<row+height;i++)
+    {
+        for(int j=col;j<col+width;j++)
+        {
+            canvas[i][j]='_';
+        }
+    }
+}
+
+int main()
+{
+    int choice;
+
+    initializeCanvas();
+
+    do
+    {
+        printf("\n===== 2D GRAPHICS EDITOR =====\n");
+        printf("1. Draw Line\n");
+        printf("2. Draw Rectangle\n");
+        printf("3. Draw Triangle\n");
+        printf("4. Draw Circle\n");
+        printf("5. Delete Area\n");
+        printf("6. Display Canvas\n");
+        printf("7. Exit\n");
+
+        printf("Enter choice: ");
+        scanf("%d",&choice);
+
+        switch(choice)
+        {
+            case 1:
+                drawLine();
+                break;
+
+            case 2:
+                drawRectangle();
+                break;
+
+            case 3:
+                drawTriangle();
+                break;
+
+            case 4:
+                drawCircle();
+                break;
+
+            case 5:
+                deleteArea();
+                break;
+
+            case 6:
+                displayCanvas();
+                break;
+
+            case 7:
+                printf("Exiting...\n");
+                break;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+
+    } while(choice != 7);
+
+    return 0;
+}
